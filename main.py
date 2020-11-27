@@ -4,12 +4,12 @@ from advent_2018_day_1.handler import calculator, add
 
 
 if __name__ == '__main__':
+    # Start Timer
+    start_time = dt.datetime.now()
+
     # Parsing
     raw_data = input_parser('advent_2018_day_1/input.txt')
     data = formatter(raw_data)
-
-    # Start Timer
-    start_time = dt.datetime.now()
 
     # Run
     result = calculator(data)
