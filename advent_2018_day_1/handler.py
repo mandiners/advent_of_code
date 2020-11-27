@@ -1,4 +1,18 @@
+def add(numbers):
+    """
+    Advent of code 2018 I/1
+    """
+    total = 0
+    for number in numbers:
+        total += int(number)
+
+    return total
+
+
 def calculator(numbers):
+    """
+    Advent of code 2018 I/2
+    """
     total = 0
     freq_history = set()
     result = None
