@@ -1,56 +1,63 @@
-import asyncio
-
-loop = asyncio.get_event_loop()
-
-
-async def checker(point, kockak):
-    match = 0
-    for square in kockak.values():
-        if match > 1:
-            return point
-        else:
-            left, right = square['x_range']
-            up, down = square['y_range']
-            if point[0] in range(left, right) and point[1] in range(up, down):
-                match += 1
-
-
-async def run(foo, bar):
-    print(foo)
-    await asyncio.gather(*[checker(i, bar) for i in foo])
+from collections import defaultdict
 
 
 def overlap_checker(input_data):
     squares = {}
-    results = []
+    results = defaultdict(int)
     for data in input_data:
         data = data.split(' ')
-        x, y = data[2].split(',')
-        a, b = data[3].split('x')
+        x, y = [int(i) for i in data[2][:-1:].split(',')]
+        a, b = [int(i) for i in data[3].split('x')]
         pk = int(data[0][1::])
         squares[pk] = {
-            'x_range': (int(x) + 1, int(x) + int(a)),
-            'y_range': (int(y[:-1:]) + 1, int(y[:-1:]) + int(b))
+            'x_range': (x, x + a),
+            'y_range': (y, y + b)
         }
 
-    x_coordinates = range(1, max(int(i['x_range'][1] + 1) for i in squares.values()))
-    y_coordinates = range(1, max(int(i['y_range'][1] + 1) for i in squares.values()))
-    foo = [(x, y) for x in x_coordinates for y in y_coordinates]
-    try:
-        loop.run_until_complete(run(foo, squares))
-    finally:
-        loop.close()
-    # for x in x_coordinates:
-    #     for y in y_coordinates:
-    #         match = 0
-    #         for square in squares.values():
-    #             if match > 3:
-    #                 results.append([x, y])
-    #                 break
-    #             else:
-    #                 left, right = square['x_range']
-    #                 up, down = square['y_range']
-    #                 if x in range(left, right) and y in range(up, down):
-    #                     match += 1
+    for square in squares.values():
+        left, right = square['x_range']
+        up, down = square['y_range']
+        for x in range(left + 1, right + 1):
+            for y in range(up + 1, down + 1):
+                results[(x, y)] += 1
 
-    return foo
+    results = len([i for i in results.values() if i > 1])
+
+    return results
+
+
+def overlap_checker_2(input_data):
+    squares = {}
+    results = defaultdict(int)
+    for data in input_data:
+        data = data.split(' ')
+        x, y = [int(i) for i in data[2][:-1:].split(',')]
+        a, b = [int(i) for i in data[3].split('x')]
+        pk = int(data[0][1::])
+        squares[pk] = {
+            'x_range': (x, x + a),
+            'y_range': (y, y + b),
+            'points': []
+        }
+
+    for square in squares.values():
+        left, right = square['x_range']
+        up, down = square['y_range']
+        for x in range(left + 1, right + 1):
+            for y in range(up + 1, down + 1):
+                square['points'].append((x, y))
+                results[(x, y)] += 1
+
+    results = set([k for k, v in results.items() if v < 2])
+
+    for pk, square in squares.items():
+        checker = []
+        for point in square['points']:
+            if point in results:
+                checker.append(point)
+            else:
+                break
+
+            if len(checker) == len(square['points']):
+                return pk
+
