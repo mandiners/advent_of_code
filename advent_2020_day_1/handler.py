@@ -1,18 +1,23 @@
 def find_two_values_to_sum_2020_and_multiplying(input_data):
-    numbers = set([int(i) for i in input_data])
-    for number in numbers:
-        for possible_multiplier in numbers:
-            if number + possible_multiplier == 2020:
-                return number * possible_multiplier
+    numbers = [int(i) for i in input_data]
+    for i in range(len(numbers)):
+        ni = numbers[i]
+        for j in range(i + 1, len(numbers)):
+            nj = numbers[j]
+            if ni + nj == 2020:
+                return ni * nj
 
 
 def find_three_values_to_sum_2020_and_multiplying(input_data):
-    numbers = set([int(i) for i in input_data])
-    for number in numbers:
-        for possible_first_multiplier in numbers:
-            if possible_first_multiplier + number >= 2000:
+    numbers = [int(i) for i in input_data]
+    for i in range(len(numbers)):
+        ni = numbers[i]
+        for j in range(i + 1, len(numbers)):
+            nj = numbers[j]
+            if ni + nj >= 2000:
                 continue
             else:
-                for possible_second_multiplier in numbers:
-                    if number + possible_first_multiplier + possible_second_multiplier == 2020:
-                        return number * possible_first_multiplier * possible_second_multiplier
+                for k in range(j + 1, len(numbers)):
+                    nk = numbers[k]
+                    if ni + nj + nk == 2020:
+                        return ni * nj * nk
