@@ -16,20 +16,20 @@ def passport_validator(input_lines):
     228
     """
     valid_passports = 0
-    fields = set()
+    temp = set()
     lines = input_lines if input_lines[-1] is None else [*input_lines, *[None]]
 
     for line in lines:
         if line:
-            data = line.split(' ')
-            for field in data:
+            fields = line.split(' ')
+            for field in fields:
                 field_name = field.split(':')[0]
                 if field_name != 'cid':
-                    fields.add(field_name)
+                    temp.add(field_name)
         else:
-            if len(fields) == len(REQUIRED_FIELDS):
+            if len(temp) == len(REQUIRED_FIELDS):
                 valid_passports += 1
-            fields = set()
+            temp = set()
 
     return valid_passports
 
@@ -46,9 +46,9 @@ def passport_validator2(input_lines):
         if line:
             fields = line.split(' ')
             for field in fields:
-                key, value = field.split(':')
-                if key != 'cid':
-                    temp[key] = value
+                field_name, value = field.split(':')
+                if field_name != 'cid':
+                    temp[field_name] = value
         else:
             passport = {}
             for field_name, value in temp.items():
