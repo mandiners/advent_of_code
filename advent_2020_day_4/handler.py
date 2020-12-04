@@ -11,13 +11,13 @@ REQUIRED_FIELDS = (
     )
 
 
-def passport_validator(lines):
+def passport_validator(input_lines):
     """
     228
     """
     valid_passports = 0
     fields = set()
-    lines = lines if lines[-1] is None else [*lines, *[None]]
+    lines = input_lines if input_lines[-1] is None else [*input_lines, *[None]]
 
     for line in lines:
         if line:
@@ -33,13 +33,13 @@ def passport_validator(lines):
     return valid_passports
 
 
-def passport_validator2(lines):
+def passport_validator2(input_lines):
     """
     175
     """
     valid_passports = 0
-    data = {}
-    lines = lines if lines[-1] is None else [*lines, *[None]]
+    temp = {}
+    lines = input_lines if input_lines[-1] is None else [*input_lines, *[None]]
 
     for line in lines:
         if line:
@@ -47,18 +47,17 @@ def passport_validator2(lines):
             for field in fields:
                 key, value = field.split(':')
                 if key != 'cid':
-                    data[key] = value
+                    temp[key] = value
         else:
-            for field_name, value in data.items():
+            passport = {}
+            for field_name, value in temp.items():
                 if validator := getattr(validators, f'{field_name}_validator'):
-                    data[field_name] = validator(value)
+                    if is_valid := validator(value):
+                        passport[field_name] = is_valid
 
-            field_list = set(i for i in data.keys())
-            are_all_fields_are_valid = all(value for value in data.values())
-
-            if are_all_fields_are_valid and sorted(field_list) == sorted(REQUIRED_FIELDS):
+            if sorted(set(passport.keys())) == sorted(REQUIRED_FIELDS):
                 valid_passports += 1
 
-            data = {}
+            temp = {}
 
     return valid_passports
