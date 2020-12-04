@@ -23,10 +23,11 @@ def passport_validator(input_lines):
         if line:
             data = line.split(' ')
             for field in data:
-                fields.add(field.split(':')[0])
+                field_name = field.split(':')[0]
+                if field_name != 'cid':
+                    fields.add(field_name)
         else:
-            fields = [i for i in fields if i != 'cid']
-            if sorted(fields) == sorted(REQUIRED_FIELDS):
+            if len(fields) == len(REQUIRED_FIELDS):
                 valid_passports += 1
             fields = set()
 

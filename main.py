@@ -18,7 +18,7 @@ if __name__ == '__main__':
     data = formatter(raw_data)
 
     # Run
-    result = passport_validator2(data)
+    result = passport_validator(data)
 
     # End of Task
     print(f"Run time: {dt.datetime.now() - start_time}")
