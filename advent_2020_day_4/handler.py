@@ -55,7 +55,7 @@ def passport_validator2(input_lines):
                     if is_valid := validator(value):
                         passport[field_name] = is_valid
 
-            if sorted(set(passport.keys())) == sorted(REQUIRED_FIELDS):
+            if len(passport.keys()) == len(REQUIRED_FIELDS):
                 valid_passports += 1
 
             temp = {}
