@@ -1,5 +1,6 @@
 from . import validators
 
+
 REQUIRED_FIELDS = (
         'byr',
         'iyr',
