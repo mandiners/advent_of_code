@@ -1,24 +1,20 @@
 import argparse
 import datetime as dt
-import importlib
+import src
 import sys
-from utils.parser import input_parser, formatter
+from utils.helper import input_loader, format_data, get_args
 
 
-def z_fill(day):
-    return day.zfill(2)
-
-
-def run(callback, input_path):
+def run(callback, path):
     # Start Timer
     start_time = dt.datetime.now()
 
     # Parsing
-    raw_data = input_parser(input_path)
-    data = formatter(raw_data)
+    raw_data = input_loader(path)
+    data = format_data(raw_data)
 
     # Run
-    result = callback.run(data)
+    result = callback(data)
 
     # End of Task
     print(f"Run time: {dt.datetime.now() - start_time}")
@@ -26,36 +22,26 @@ def run(callback, input_path):
 
 
 if __name__ == '__main__':
-    modulo = None
-    parser = argparse.ArgumentParser(description='Advent of Code')
-    parser.add_argument('year', type=str, help='Input year')
-    parser.add_argument('day', type=z_fill, help='Input day')
-    parser.add_argument('part', type=str, help='Input part')
-    args = parser.parse_args()
+    args = get_args()
     year, day, part = args.year, args.day, args.part
-    try:
-        year_module = importlib.import_module(f"src.{year}")
-    except ModuleNotFoundError as e:
-        print(f'Cannot import year({year}) module!')
-        sys.exit()
 
-    try:
-        day_module = importlib.import_module(f"src.{year}.day_{day}")
-    except ModuleNotFoundError as e:
-        print(f'Cannot import year({year}) day({day}) module!')
-        sys.exit()
+    year_module = getattr(src, f"_{year}", None)
+    if not year_module:
+        print(f'Cannot import src.{year}')
+        sys.exit(1)
 
-    try:
-        modulo = importlib.import_module(f"src.{year}.day_{day}.part_{part}")
-    except ModuleNotFoundError as e:
-        print(f'Cannot import year({year}) day({day}) part({part}) module!')
-        sys.exit()
+    day_module = getattr(year_module, f"day_{day}", None)
+    if not day_module:
+        print(f'Cannot import src.{year}.day_{day}')
+        sys.exit(1)
 
-    if modulo:
-        if hasattr(modulo, 'run'):
-            input_path = f"src/{year}/day_{day}/input.txt"
-            run(modulo, input_path)
+    _module = getattr(day_module, f"part_{part}", None)
+    if not _module:
+        print(f'Cannot import src.{year}.day_{day}.part_{part}')
+        sys.exit(1)
+
+    if hasattr(_module, 'run'):
+        input_path = f"src/_{year}/day_{day}/input.txt"
+        run(_module.run, input_path)
     else:
         print('Something went wrong...')
-
-    sys.exit()
