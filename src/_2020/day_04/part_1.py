@@ -5,6 +5,7 @@ def run(input_lines):
     """
     228
     """
+    sorted_required_fields = sorted(REQUIRED_FIELDS)
     valid_passports = 0
     temp = set()
     lines = input_lines if input_lines[-1] is None else [*input_lines, *[None]]
@@ -17,7 +18,7 @@ def run(input_lines):
                 if field_name != 'cid':
                     temp.add(field_name)
         else:
-            if len(temp) == len(REQUIRED_FIELDS):
+            if sorted(temp) == sorted_required_fields:
                 valid_passports += 1
             temp = set()
 

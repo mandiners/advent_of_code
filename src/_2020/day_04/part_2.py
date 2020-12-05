@@ -5,6 +5,7 @@ def run(input_lines):
     """
     175
     """
+    sorted_required_fields = sorted(REQUIRED_FIELDS)
     valid_passports = 0
     temp = {}
     lines = input_lines if input_lines[-1] is None else [*input_lines, *[None]]
@@ -23,7 +24,7 @@ def run(input_lines):
                     if is_valid := validator(value):
                         passport[field_name] = is_valid
 
-            if len(passport.keys()) == len(REQUIRED_FIELDS):
+            if sorted(passport.keys()) == sorted_required_fields:
                 valid_passports += 1
 
             temp = {}
