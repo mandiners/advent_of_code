@@ -1,3 +1,6 @@
+import functools
+
+
 def run(lines):
     """
     5140884672
@@ -19,8 +22,4 @@ def run(lines):
 
         tree_list.append(result)
 
-    results = 1
-    for i in tree_list:
-        results = results * i
-
-    return results
+    return functools.reduce(lambda a, b: a * b, tree_list)
