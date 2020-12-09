@@ -1,18 +1,23 @@
+SEQUENCE_LEN = 25
+
+
 def run(input_lines):
     """
     22477624
     """
     preambles = [int(value) for value in input_lines]
 
-    for index, value in enumerate(preambles, 1):
-        if index > 25:
-            temp = False
-            threshold = preambles[:index - 1:]
-            for i in threshold:
-                for j in threshold:
-                    if i + j == value:
-                        temp = True
-                        break
+    for index, preamble in enumerate(preambles[SEQUENCE_LEN::]):
+        counter = 0
+        index += SEQUENCE_LEN
+        target_sequence = preambles[index - SEQUENCE_LEN:index:]
 
-            if not temp:
-                return value
+        for i in target_sequence:
+            counter += 1
+            for j in target_sequence:
+                if i + j == preamble:
+                    counter = 0
+                    break
+
+        if counter == SEQUENCE_LEN:
+            return preamble
