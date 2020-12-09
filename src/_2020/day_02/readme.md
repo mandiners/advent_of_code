@@ -6,7 +6,7 @@ The shopkeeper at the North Pole Toboggan Rental Shop is having a bad day. "Some
 
 Their password database seems to be a little corrupted: some of the passwords wouldn't have been allowed by the Official Toboggan Corporate Policy that was in effect when they were chosen.
 
-# Part 1
+## Part 1
 
 To try to debug the problem, they have created a list (your puzzle input) of passwords (according to the corrupted database) and the corporate policy when that password was set.
 
@@ -26,7 +26,7 @@ How many passwords are valid according to their policies?
 
 Your puzzle answer was `393`.
 
-# Part Two
+## Part Two
 While it appears you validated the passwords correctly, they don't seem to be what the Official Toboggan Corporate Authentication System is expecting.
 
 The shopkeeper suddenly realizes that he just accidentally explained the password policy rules from his old job at the sled rental place down the street! The Official Toboggan Corporate Policy actually works a little differently.
