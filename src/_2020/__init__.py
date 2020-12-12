@@ -7,3 +7,4 @@ from .day_06 import part_1, part_2
 from .day_07 import part_1, part_2
 from .day_08 import part_1, part_2
 from .day_09 import part_1, part_2
+from .day_10 import part_1, part_2
