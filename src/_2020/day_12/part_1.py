@@ -1,22 +1,9 @@
-from . import FORWARD,\
-    LEFT, RIGHT,\
-    NORTH, EAST, SOUTH, WEST,\
+from . import FORWARD, \
+    LEFT, RIGHT, \
+    EAST, \
+    DIRECTIONS, \
     ORDER_OF_DIRECTIONS
-
-DIRECTIONS = {
-    NORTH: {'axis': 'y', 'operator': '+'},
-    EAST: {'axis': 'x', 'operator': '+'},
-    SOUTH: {'axis': 'y', 'operator': '-'},
-    WEST: {'axis': 'x', 'operator': '-'},
-}
-
-
-def compass(direction, value):
-    start = direction.index(value)
-
-    return [*[direction[start]],
-            *[i for i in direction[start::] if i != direction[start]],
-            *[j for j in direction[:start:] if j != direction[start]]]
+from .helper import compass
 
 
 def turn_the_ship(value, direction, degree):
