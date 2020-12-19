@@ -1,0 +1,11 @@
+RIGHT = 'R'
+LEFT = 'L'
+
+FORWARD = 'F'
+
+EAST = 'E'
+WEST = 'W'
+NORTH = 'N'
+SOUTH = 'S'
+
+ORDER_OF_DIRECTIONS = (NORTH, EAST, SOUTH, WEST)
