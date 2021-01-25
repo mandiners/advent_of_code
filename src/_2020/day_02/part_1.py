@@ -10,9 +10,7 @@ def run(input_data):
         policy_range, policy_target = policy_rules.split(' ')
         start, end = [int(i) for i in policy_range.split('-')]
 
-        for char in password:
-            if policy_target == char:
-                temp += 1
+        temp += password.count(policy_target)
 
         if temp in range(start, end + 1):
             result += 1
